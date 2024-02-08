@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+
 
 
 
@@ -13,7 +15,7 @@ async function searchCep(cep) {
         const response = await fetch(url, options);
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
+            vue.contentCep = data
             return data; 
         } else {
             console.error('Error na procura:', response.status);

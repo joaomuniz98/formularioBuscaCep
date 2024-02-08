@@ -15,7 +15,7 @@
                 <h2> Formulario </h2>
             </div>
 
-            <div class="divBodyContent">
+            <div id="app" class="divBodyContent">
 
                 <div class="row">
                      
@@ -39,9 +39,74 @@
                         <input type="text" onchange="searchCep('09420380')" value="" id="valueCep"/>    
                     </div>
 
+                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
+                        <label>Numero</label>
+                        <input type="text" value="" id="valueCep"/>    
+                    </div>
+
 
                 </div>
 
+                <div class="row">
+                     
+                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
+                        <label>Cep</label>
+                        <input type="text" onchange="searchCep('09420380')" value="" id="valueCep"/>    
+                    </div>
+
+                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
+                        <label>Numero</label>
+                        <input type="text" value="" id="valueCep"/>    
+                    </div>
+
+
+                </div>
+
+
+                <div class="row">
+                     
+                    <div class="espacamento d-flex flex-column col-md-12 col-lg-12 col-xs-12">
+                        <label>Endereço</label>
+                        <input type="text" value="" id="valueAddress"/>    
+                    </div>
+
+                </div>
+
+                <div class="row">
+                     
+                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
+                        <label>Complemento</label>
+                        <input type="text" value="" id="valueComplement"/>    
+                    </div>
+
+                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
+                        <label>Bairro</label>
+                        <input type="text" value="" id="valueNeighborhood"/>    
+                    </div>
+
+                </div>
+
+                <div class="row align-items-end">
+
+                    <div class="espacamento d-flex flex-column col-md-2 col-lg-2 col-xs-12">
+                        <label>UF</label>
+
+                        <select id="cboUf" v-model="selectedUf">
+                            <option v-for="uf in ufs" :value="uf.sigla">{{ uf.sigla }}</option>
+                        </select>
+                     
+                    </div>
+                                 
+                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
+                        <label>Cidade</label>
+                        <input type="text" value="" id="valueCidade"/>    
+                    </div>
+                
+                    <div class="espacamento d-flex flex-column col-md-2 col-lg-2 col-xs-12">
+                        <button type="button"  value="" id="valueCidade"> Enviar  </button>     
+                    </div>
+                
+                </div>
             </div>
  
 
@@ -53,6 +118,57 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
     <script src="./index.js"></script>
+
+    <script>
+     
+ // Define os dados dos estados
+ let ufJson = {
+    "UF": [
+        {"nome": "Acre", "sigla": "AC"},
+        {"nome": "Alagoas", "sigla": "AL"},
+        {"nome": "Amapá", "sigla": "AP"},
+        {"nome": "Amazonas", "sigla": "AM"},
+        {"nome": "Bahia", "sigla": "BA"},
+        {"nome": "Ceará", "sigla": "CE"},
+        {"nome": "Distrito Federal", "sigla": "DF"},
+        {"nome": "Espírito Santo", "sigla": "ES"},
+        {"nome": "Goiás", "sigla": "GO"},
+        {"nome": "Maranhão", "sigla": "MA"},
+        {"nome": "Mato Grosso", "sigla": "MT"},
+        {"nome": "Mato Grosso do Sul", "sigla": "MS"},
+        {"nome": "Minas Gerais", "sigla": "MG"},
+        {"nome": "Pará", "sigla": "PA"},
+        {"nome": "Paraíba", "sigla": "PB"},
+        {"nome": "Paraná", "sigla": "PR"},
+        {"nome": "Pernambuco", "sigla": "PE"},
+        {"nome": "Piauí", "sigla": "PI"},
+        {"nome": "Rio de Janeiro", "sigla": "RJ"},
+        {"nome": "Rio Grande do Norte", "sigla": "RN"},
+        {"nome": "Rio Grande do Sul", "sigla": "RS"},
+        {"nome": "Rondônia", "sigla": "RO"},
+        {"nome": "Roraima", "sigla": "RR"},
+        {"nome": "Santa Catarina", "sigla": "SC"},
+        {"nome": "São Paulo", "sigla": "SP"},
+        {"nome": "Sergipe", "sigla": "SE"},
+        {"nome": "Tocantins", "sigla": "TO"}
+
+    ]
+    };
+
+    let vue = new Vue({
+        el: "#app",
+        data: {
+            contentCep: [],
+            selectedUf: null,
+            ufs: ufJson.UF
+        },
+        created() {
+            console.log(ufJson);
+        }
+    });
+
+
+    </script>
 
 </body>
 
