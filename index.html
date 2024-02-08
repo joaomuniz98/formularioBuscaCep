@@ -32,26 +32,12 @@
 
                 </div>
 
+         
                 <div class="row">
                      
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
-                        <label>Cep</label>
-                        <input type="text" onchange="searchCep('09420380')" value="" id="valueCep"/>    
-                    </div>
-
-                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
-                        <label>Numero</label>
-                        <input type="text" value="" id="valueCep"/>    
-                    </div>
-
-
-                </div>
-
-                <div class="row">
-                     
-                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
-                        <label>Cep</label>
-                        <input type="text" onchange="searchCep('09420380')" value="" id="valueCep"/>    
+                        <label>CEP</label>
+                        <input type="text" @change="searchCep(valueCep)"  v-model="valueCep"/>    
                     </div>
 
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
@@ -67,7 +53,7 @@
                      
                     <div class="espacamento d-flex flex-column col-md-12 col-lg-12 col-xs-12">
                         <label>Endereço</label>
-                        <input type="text" value="" id="valueAddress"/>    
+                        <input  v-model="valueAddress" type="text" value="" />    
                     </div>
 
                 </div>
@@ -76,12 +62,12 @@
                      
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
                         <label>Complemento</label>
-                        <input type="text" value="" id="valueComplement"/>    
+                        <input type="text" value="" v-model="valueComplement" />    
                     </div>
 
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
                         <label>Bairro</label>
-                        <input type="text" value="" id="valueNeighborhood"/>    
+                        <input type="text" value="" v-model="valueNeighborhood" />    
                     </div>
 
                 </div>
@@ -99,7 +85,7 @@
                                  
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
                         <label>Cidade</label>
-                        <input type="text" value="" id="valueCidade"/>    
+                        <input type="text"  v-model="valueCity"/>    
                     </div>
                 
                     <div class="espacamento d-flex flex-column col-md-2 col-lg-2 col-xs-12">
@@ -155,17 +141,62 @@
     ]
     };
 
-    let vue = new Vue({
+    var vue = new Vue({
         el: "#app",
         data: {
-            contentCep: [],
-            selectedUf: null,
+            valueAddress: '',
+            valueNeighborhood: '',
+            valueComplement: '',
+            selectedUf: '',
+            valueCity: '',
+            valueCep: '',
+            valueUf: '',
             ufs: ufJson.UF
         },
+        methods: {
+        setValueUf(valueUf) {
+            this.selectedUf = valueUf; // Atribua o valueUf ao selectedUf
+        },
+
+      async  searchCep(cep){
+           
+    let url = `https://viacep.com.br/ws/${cep}/json/`;
+    console.log(url);
+
+    const options = {
+        method: 'GET' 
+    };
+
+    try {
+        const response = await fetch(url, options);
+        if (response.ok) {
+            const data = await response.json();
+
+            console.log(data.logradouro)
+            vue.valueAddress = data.logradouro
+            vue.valueNeighborhood = data.bairro
+            vue.valueComplement = data.complemento
+            vue.valueCity = data.localidade
+            vue.setValueUf(data.uf);
+            return data; 
+        } else {
+            console.error('Error na procura:', response.status);
+        }
+    } catch (error) {
+        console.error('Error na requisição:', error);
+    }
+          }
+
+      
+          },
         created() {
             console.log(ufJson);
         }
     });
+
+
+    
+
 
 
     </script>
