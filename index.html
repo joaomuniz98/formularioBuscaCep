@@ -5,12 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario</title>
     <link rel="stylesheet" type="text/css" href="index.css" media="screen" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-
+ 
+     </div>
         <div class="divMain">
 
+
+            <div id="toastContainer"></div>
+
+         
+       
+       
             <div class="divTitleMain">
                 <h2> Formulario </h2>
             </div>
@@ -32,26 +41,12 @@
 
                 </div>
 
+         
                 <div class="row">
                      
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
-                        <label>Cep</label>
-                        <input type="text" onchange="searchCep('09420380')" value="" id="valueCep"/>    
-                    </div>
-
-                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
-                        <label>Numero</label>
-                        <input type="text" value="" id="valueCep"/>    
-                    </div>
-
-
-                </div>
-
-                <div class="row">
-                     
-                    <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
-                        <label>Cep</label>
-                        <input type="text" onchange="searchCep('09420380')" value="" id="valueCep"/>    
+                        <label>CEP</label>
+                        <input type="text" @change="searchCep(valueCep)"  v-model="valueCep"/>    
                     </div>
 
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
@@ -67,7 +62,7 @@
                      
                     <div class="espacamento d-flex flex-column col-md-12 col-lg-12 col-xs-12">
                         <label>Endereço</label>
-                        <input type="text" value="" id="valueAddress"/>    
+                        <input  v-model="valueAddress" type="text" value="" />    
                     </div>
 
                 </div>
@@ -76,12 +71,12 @@
                      
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
                         <label>Complemento</label>
-                        <input type="text" value="" id="valueComplement"/>    
+                        <input type="text" value="" v-model="valueComplement" />    
                     </div>
 
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
                         <label>Bairro</label>
-                        <input type="text" value="" id="valueNeighborhood"/>    
+                        <input type="text" value="" v-model="valueNeighborhood" />    
                     </div>
 
                 </div>
@@ -99,11 +94,11 @@
                                  
                     <div class="espacamento d-flex flex-column col-md-6 col-lg-6 col-xs-12">
                         <label>Cidade</label>
-                        <input type="text" value="" id="valueCidade"/>    
+                        <input type="text"  v-model="valueCity"/>    
                     </div>
                 
                     <div class="espacamento d-flex flex-column col-md-2 col-lg-2 col-xs-12">
-                        <button type="button"  value="" id="valueCidade"> Enviar  </button>     
+                        <button type="button" @click="sendForms()" value="" id="valueCidade"> Enviar  </button>     
                     </div>
                 
                 </div>
@@ -117,10 +112,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/toastr.min.js"></script>
+
+    
     <script src="./index.js"></script>
 
     <script>
-     
+
  // Define os dados dos estados
  let ufJson = {
     "UF": [
@@ -155,17 +155,97 @@
     ]
     };
 
-    let vue = new Vue({
+    var vue = new Vue({
         el: "#app",
         data: {
-            contentCep: [],
-            selectedUf: null,
+            valueAddress: '',
+            valueNeighborhood: '',
+            valueComplement: '',
+            selectedUf: '',
+            valueCity: '',
+            valueCep: '',
+            valueUf: '',
             ufs: ufJson.UF
         },
+        methods: {
+        setValueUf(valueUf) {
+            this.selectedUf = valueUf; 
+        },
+
+        sendForms() {
+            console.log("teste");
+            if (
+                !this.valueAddress ||
+                !this.valueNeighborhood ||
+                !this.valueComplement ||
+                !this.selectedUf ||
+                !this.valueCity ||
+                !this.valueCep ||
+                !this.valueUf
+            ) {
+                    
+               let campo = this.alertToast("Warning", "Falta campos a serem preenchidos")
+               document.getElementById('toastContainer').innerHTML += campo;
+
+               setTimeout(() => {
+                    let divTosts = document.querySelectorAll('.divTost');
+                    let lastDivTost = divTosts[divTosts.length - 1];
+                    lastDivTost.classList.add('hidden');
+              }, 100); 
+                return;
+            }
+            },
+
+            alertToast(titulo,texto){
+
+                let campo = ""
+                campo += `
+                <div class="divTost">
+                    <strong>${titulo}</strong>
+                    <p>${texto}</p>
+                </div>
+                `
+
+                return campo
+            },
+
+            async  searchCep(cep){
+                
+            let url = `https://viacep.com.br/ws/${cep}/json/`;
+            console.log(url);
+
+            const options = {
+                method: 'GET' 
+            };
+
+            try {
+                const response = await fetch(url, options);
+                if (response.ok) {
+                    const data = await response.json();
+                    vue.valueAddress = data.logradouro
+                    vue.valueNeighborhood = data.bairro
+                    vue.valueComplement = data.complemento
+                    vue.valueCity = data.localidade
+                    vue.setValueUf(data.uf);
+                    return data; 
+                } else {
+                    console.error('Error na procura:', response.status);
+                }
+            } catch (error) {
+                console.error('Error na requisição:', error);
+            }
+                }
+          },
+
+
         created() {
             console.log(ufJson);
         }
     });
+
+
+    
+
 
 
     </script>
