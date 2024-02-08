@@ -1,18 +1,73 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
 *{
 
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+input {
+    border: none;
+    padding: 5px;
+    border-bottom: 1px solid black;
+    text-decoration: none;
+   
 
 }
 
+button{
+       
+    border: none;
+}
+
+button:hover{
+
+    padding: 5px;
+    background-color: rgb(114, 36, 36);
+    color: azure;
+
+}
+
+label {
+
+    font-weight: 1000;
+}
+
+select {
+    border: none;
+    padding: 5px;
+    border-bottom: 1px solid black;
+    text-decoration: none;
+
+}
+
+select:focus{
+    outline: none;
+    border: 1px;
+    border-bottom: 3px solid rgb(114, 36, 36);
+}
+
+
+input:focus{
+    outline: none;
+    border: 1px;
+    border-bottom: 3px solid rgb(114, 36, 36);
+}
+
+.row    {
+
+    margin: 50px;
+}
 
 
 .divMain {
    padding: 30px;
     margin: 0 auto;
-    border: 1px solid black;
+
     width: 50%;
     min-height: 1200px;
 }
@@ -24,4 +79,28 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.divTost {
+    position: absolute;
+    background-color: #FFFF00;
+    min-width: 150px;
+    height: auto;
+    right: 0;
+    top: 0;
+    margin: 30px;
+    overflow: hidden;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(200px);
+    transition: transform 0.5s ease; /* Adicionando uma transição suave */
+    transition-duration: 1s;
+}
+
+.divTost.hidden {
+    transform: translateX(0px); /* Mostra a div, trazendo-a de baixo para cima */
 }
